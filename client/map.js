@@ -22,6 +22,12 @@ Template.map.rendered = function() {
 				{ hue: "#00ffee" },
 				{ saturation: 50 }
 			]
+		},		{
+			featureType: "road",
+			elementType: "all",
+			stylers: [
+				{ visibility: "off" }
+			]
 		}
 	];
 	initializeMap(styleArray);
