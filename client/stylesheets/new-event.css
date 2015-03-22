@@ -1,0 +1,81 @@
+
+.new-event{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.new-event.hidden{
+	display: none;
+}
+
+/* Form
+/*--------------------------------------------*/
+.new-event .underlay{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.2);
+	z-index: 2;
+}
+
+.new-event-form{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+
+	width: 90%;
+	height: 90%;
+	background: #fff;
+	text-align: center;
+
+	z-index: 2;
+}
+
+.new-event-form .title {
+	display: inline-block;
+	width: 80%;
+	height: 50px;
+	font-size: 30px;
+	line-height: 50px;
+	text-align: center;
+	margin-top: 50px;
+}
+
+.new-event-form .submit {
+	width: 0;
+	height: 0;
+}
+
+/* Button
+/*--------------------------------------------*/
+.add-event-button {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+
+	width: 65px;
+	height: 65px;
+	border-radius: 100%;
+	font-size: 45px;
+	line-height: 65px;
+	text-align: center;
+	color: rgba(0,0,0,0.5);
+	background: #fff;
+	border: 2px solid rgba(0,0,0,0.2);
+	margin-top: 1px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+.add-event-button:active,
+.add-event-button:hover {
+	color: rgba(0,0,0,0.7);
+	background: #fff;
+	border-color: rgba(0,0,0,0.5);
+}
