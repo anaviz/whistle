@@ -11,16 +11,3 @@ eclipse
 *.ipr
 *.iws
 atlassian-ide-plugin.xml
-
-/modules
-/tmp
-/modules
-/node_modules
-/lib
-/test-result
-/logs
-/precompiled
-/project
-/target
-/.target
-/server.pid

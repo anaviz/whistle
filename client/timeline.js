@@ -10,26 +10,21 @@ var TimelineService = {
 		zoomMin: 3600000
 	},
 
-	timeNavigator: {
-		offset: 1, // number of days/weeks/months...
-		scale: "day", //day, week, month, year
-		scrolledPosition: 50, //percent
-		scrolledDate: this.currentDate
-	},
-
 	getFilter: function() {
-		return "do filter";
+		return {
+			created_at: {
+				$gte: TimelineService.currentDate.toISOString(),
+				$lt: ISODate("2010-05-01T00:00:00.000Z")
+			}
+		};
 	}
 };
 
 Template.timeline.helpers({
 	events: function () {
 		// use filter
-		return Events.find({
-			created_at: {
-				$gte: TimelineService.currentDate.toISOString(),
-				$lt: ISODate("2010-05-01T00:00:00.000Z")
-			}},
+		return Events.find(
+			TimelineService.getfilter(),
 			{sort: {createdAt: -1}});
 	}
 });
