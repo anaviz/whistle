@@ -10,8 +10,8 @@ var TimelineService = function(){
 			zoomMax: 31536000000, // 1 year
 			zoomMin: 3600000, // 1 day
 			showCurrentTime: false,
-			end: this.currentDate.getTime() - 86400000, //default: current time minus 1day
-			start: this.currentDate.getTime()
+			end: this.currentDate.getTime(),
+			start: this.currentDate.getTime() - 86400000 //default: current time minus 1day
 		},
 
 		getFilter: function() {
