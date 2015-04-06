@@ -16,6 +16,7 @@ var TimelineService = new function() {
 		//start: this.currentDate.getTime() - 86400000 //start of the events shown //default: current time minus 1day
 	};
 
+// TODO: MOVE EVENTS TO STORE
 	this.getFilter = function() {
 		return {
 			// add location filter
@@ -26,18 +27,27 @@ var TimelineService = new function() {
 		};
 	};
 
+// TODO: MOVE EVENTS TO STORE
 	this.events = function () {
 		return Events.find({},
 			{sort: {createdAt: -1}});
 	};
+
+	this.createTimeline = function (container) {
+		var items = this.events().fetch();
+		this.timeline = new vis.Timeline(container, items, this.options);
+		this.timeline.on('rangechanged', this.timelineOnRangechanged.bind(this));
+	};
+
+	this.timelineOnRangechanged = function(range) {
+		console.log("update map");
+		// TODO: TRIGGER CHANGE
+	}
+
+
 }();
-
-Template.timeline.updateTimeline = function () {
-
-};
 
 Template.timeline.rendered = function() {
 	var timeNavigator = this.find("#time-navigator");
-	var items = TimelineService.events().fetch();
-	TimelineService.timeline = new vis.Timeline(timeNavigator, items, TimelineService.options);
+	TimelineService.createTimeline(timeNavigator);
 };
