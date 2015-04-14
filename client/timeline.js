@@ -16,25 +16,8 @@ var TimelineService = new function() {
 		//start: this.currentDate.getTime() - 86400000 //start of the events shown //default: current time minus 1day
 	};
 
-// TODO: MOVE EVENTS TO STORE
-	this.getFilter = function() {
-		return {
-			// add location filter
-			created_at: {
-				$gte: new Date(this.currentDate.getTime - 86400000).toISOString(),
-				$lt: this.currentDate.toISOString()
-			}
-		};
-	};
-
-// TODO: MOVE EVENTS TO STORE
-	this.events = function () {
-		return Events.find({},
-			{sort: {createdAt: -1}});
-	};
-
 	this.createTimeline = function (container) {
-		var items = this.events().fetch();
+		var items = Meteor.eventService.getEvents().fetch();
 		this.timeline = new vis.Timeline(container, items, this.options);
 		this.timeline.on('rangechanged', this.timelineOnRangechanged.bind(this));
 	};
