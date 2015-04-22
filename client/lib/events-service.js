@@ -1,4 +1,4 @@
-Meteor.eventService = new function() {
+function EventService() {
 	return {
 		getEvents: function (value) {
 			//var filter = value ? value : this.getFilter();
@@ -21,4 +21,5 @@ Meteor.eventService = new function() {
 
 		}
 	}
-}();
+};
+Meteor.eventService = new EventService();
