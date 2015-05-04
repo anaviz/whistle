@@ -27,7 +27,16 @@ var timelineController = new function() {
 		this.eventService.setWindowRange(range);
 	};
 
+	this.timelineOnWindowRangeChanged =  function (range) {
+		this.eventService.setWindowRange(range);
+	};
+
+	this.setEvents =  function (events) {
+		this.timelineObject.setItems(events);
+	};
+
 	this.eventService.windowRangeChanged.add(this.setTimelineRange, this);
+	this.eventService.eventsChanged.add(this.setEvents, this);
 }();
 
 Template.timeline.rendered = function() {

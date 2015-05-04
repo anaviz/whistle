@@ -2,12 +2,20 @@ Meteor.eventService = new function EventService() {
 	this.windowRange = {};
 	this.location = {};
 	this.windowRangeChanged = new Meteor.event();
+	this.eventsChanged = new Meteor.event();
 
 	this.getEvents = function (value) {
 		//var filter = value ? value : this.getFilter();
 		//TODO: use filter
 		return Events.find({},
 			{sort: {createdAt: -1}});
+	};
+
+	this.setEvents = function (events) {
+		if(this.events !== events) {
+			this.events = events;
+			this.eventsChanged.trigger(events);
+		}
 	};
 
 	this.getFilter = function() {
@@ -21,13 +29,13 @@ Meteor.eventService = new function EventService() {
 	};
 
 	this.setLocation = function(location) {
-
+		//TODO
 	};
 
 	this.setWindowRange = function(windowRange) {
 		if(this.windowRange !== windowRange) {
 			this.windowRange = windowRange;
-			this.windowRangeChanged.trigger();
+			this.windowRangeChanged.trigger(windowRange);
 		}
 	};
 
