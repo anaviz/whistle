@@ -1,3 +1,7 @@
+//TODO:
+// listen for the onReady on the event collection, then create this.events,
+// trigger an onready event for the timeline service to pickup, there is where you create the timeline vis object
+
 var timelineController = new function() {
 	this.eventService = Meteor.eventService;
 
@@ -5,7 +9,7 @@ var timelineController = new function() {
 		width: "100%",
 		height: '150px',
 		zoomMax: 31536000000, // 1 year
-		zoomMin: 60000, // 1 minute
+		zoomMin: 3600000, // 1 minute
 		max: new Date().getTime(), // now
 		min: new Date(1420066800000), // 01/01/2015
 		showCurrentTime: false,
@@ -14,9 +18,10 @@ var timelineController = new function() {
 	};
 
 	this.createTimeline = function (container) {
-		var items = this.eventService.getEvents().fetch();
-		this.timelineObject = new vis.Timeline(container, items, this.timelineOptions);
+		this.timelineItems = new vis.DataSet(this.eventService.getEventElements());
+		this.timelineObject = new vis.Timeline(container, this.timelineItems, this.timelineOptions);
 		this.timelineObject.on('rangechanged', this.timelineOnWindowRangeChanged.bind(this));
+		//this.eventService.initilize();
 	};
 
 	this.setTimelineRange = function (windowRange) {
@@ -32,7 +37,7 @@ var timelineController = new function() {
 	};
 
 	this.setEvents =  function (events) {
-		this.timelineObject.setItems(events);
+		this.timelineItems.add(events);
 	};
 
 	this.eventService.windowRangeChanged.add(this.setTimelineRange, this);
@@ -40,6 +45,6 @@ var timelineController = new function() {
 }();
 
 Template.timeline.rendered = function() {
-	var timeNavigator = this.find("#time-navigator");
-	timelineController.createTimeline(timeNavigator);
+	var timeNavigatorContainer = this.find("#time-navigator");
+	timelineController.createTimeline(timeNavigatorContainer);
 };

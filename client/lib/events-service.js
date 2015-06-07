@@ -1,14 +1,36 @@
 Meteor.eventService = new function EventService() {
+	this.firstLoaded = true;
 	this.windowRange = {};
 	this.location = {};
 	this.windowRangeChanged = new Meteor.event();
 	this.eventsChanged = new Meteor.event();
 
+
 	this.getEvents = function (value) {
-		//var filter = value ? value : this.getFilter();
+		var filter = value ? value : this.getFilter();
 		//TODO: use filter
-		return Events.find({},
+
+		this.events = Events.find({},
 			{sort: {createdAt: -1}});
+
+
+
+		return this.events;
+	};
+
+	this.initilize = function() {
+		this.events.observeChanges({
+			added: this.onEventsAdded.bind(this),
+			changed: this.onEventsChanged.bind(this),
+			removed: this.onEventsRemoved.bind(this)
+		});
+	};
+
+	this.getEventElements = function (value) {
+		var filter = value ? value : this.getFilter();
+		//TODO: use filter
+
+		return this.getEvents(filter).fetch();
 	};
 
 	this.setEvents = function (events) {
@@ -21,10 +43,10 @@ Meteor.eventService = new function EventService() {
 	this.getFilter = function() {
 		return {
 			//TODO: add location filter etc
-			created_at: {
-				$gte: new Date(this.currentDate.getTime - 86400000).toISOString(),
-				$lt: this.currentDate.toISOString()
-			}
+			//created_at: {
+			//	$gte: new Date(this.currentDate.getTime - 86400000).toISOString(),
+			//	$lt: this.currentDate.toISOString()
+			//}
 		};
 	};
 
@@ -49,5 +71,17 @@ Meteor.eventService = new function EventService() {
 
 	this.getWindowRangeEnd = function(windowRange) {
 		return this.windowRange.end;
+	};
+
+	this.onEventsAdded = function(document, element) {
+		this.eventsChanged.trigger(element);
+	};
+
+	this.onEventsChanged = function(newDocument, oldDocument, newElement, oldElement) {
+
+	};
+
+	this.onEventsRemoved = function(document, element) {
+
 	};
 };
