@@ -1,12 +1,13 @@
-Meteor.eventService = new function EventService() {
-	this.firstLoaded = true;
-	this.windowRange = {};
-	this.location = {};
-	this.windowRangeChanged = new Meteor.event();
-	this.eventsChanged = new Meteor.event();
+class EventService {
+	constructor() {
+		this.firstLoaded = true;
+		this.windowRange = {};
+		this.location = {};
+		this.windowRangeChanged = new Meteor.event();
+		this.eventsChanged = new Meteor.event();
+	}
 
-
-	this.getEvents = function (value) {
+	getEvents (value) {
 		var filter = value ? value : this.getFilter();
 		//TODO: use filter
 
@@ -16,31 +17,31 @@ Meteor.eventService = new function EventService() {
 
 
 		return this.events;
-	};
+	}
 
-	this.initilize = function() {
+	initilize () {
 		this.events.observeChanges({
 			added: this.onEventsAdded.bind(this),
 			changed: this.onEventsChanged.bind(this),
 			removed: this.onEventsRemoved.bind(this)
 		});
-	};
+	}
 
-	this.getEventElements = function (value) {
+	getEventElements (value) {
 		var filter = value ? value : this.getFilter();
 		//TODO: use filter
 
 		return this.getEvents(filter).fetch();
-	};
+	}
 
-	this.setEvents = function (events) {
+	setEvents (events) {
 		if(this.events !== events) {
 			this.events = events;
 			this.eventsChanged.trigger(events);
 		}
-	};
+	}
 
-	this.getFilter = function() {
+	getFilter () {
 		return {
 			//TODO: add location filter etc
 			//created_at: {
@@ -48,40 +49,42 @@ Meteor.eventService = new function EventService() {
 			//	$lt: this.currentDate.toISOString()
 			//}
 		};
-	};
+	}
 
-	this.setLocation = function(location) {
+	setLocation (location) {
 		//TODO
-	};
+	}
 
-	this.setWindowRange = function(windowRange) {
+	setWindowRange (windowRange) {
 		if(this.windowRange !== windowRange) {
 			this.windowRange = windowRange;
 			this.windowRangeChanged.trigger(windowRange);
 		}
-	};
+	}
 
-	this.getWindowRange = function(windowRange) {
+	getWindowRange (windowRange) {
 		return this.windowRange;
-	};
+	}
 
-	this.getWindowRangeStart = function(windowRange) {
+	getWindowRangeStart (windowRange) {
 		return this.windowRange.start;
-	};
+	}
 
-	this.getWindowRangeEnd = function(windowRange) {
+	getWindowRangeEnd (windowRange) {
 		return this.windowRange.end;
-	};
+	}
 
-	this.onEventsAdded = function(document, element) {
+	onEventsAdded (document, element) {
 		this.eventsChanged.trigger(element);
-	};
+	}
 
-	this.onEventsChanged = function(newDocument, oldDocument, newElement, oldElement) {
+	onEventsChanged (newDocument, oldDocument, newElement, oldElement) {
 
-	};
+	}
 
-	this.onEventsRemoved = function(document, element) {
+	onEventsRemoved (document, element) {
 
-	};
+	}
 };
+
+Meteor.eventService = new EventService();

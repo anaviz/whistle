@@ -1,7 +1,9 @@
-var mapController = new function() {
-	this.eventService = Meteor.eventService;
+class MapController {
+	constructor () {
+		this.eventService = Meteor.eventService;
+	}
 
-	this.initializeMap = function(styleArray) {
+	initializeMap (styleArray) {
 		var mapOptions = {
 			center: { lat: -34.397, lng: 150.644},
 			zoom: 8,
@@ -12,12 +14,13 @@ var mapController = new function() {
 		//this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions); //GoogleMaps
 		this.map.on("moveend", this.onMapChanged.bind(this)); //Mapbox
 		this.map.on("resize", this.onMapChanged.bind(this)); //Mapbox
-	};
+	}
 
-	this.onMapChanged = function(e) {
+	onMapChanged (e) {
 		this.eventService.setLocation(this.map.getBounds()); //Mapbox
-	};
+	}
 };
+var mapController = new MapController();
 
 Template.map.rendered = function() {
 	var styleArray = [
