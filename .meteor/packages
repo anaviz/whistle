@@ -9,3 +9,5 @@ accounts-ui
 accounts-password
 accounts-facebook
 grigio:babel
+reactjs:react
+aramk:requirejs
